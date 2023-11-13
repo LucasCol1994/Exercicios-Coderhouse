@@ -1,0 +1,31 @@
+#pip install plyer
+from plyer import notification
+import datetime
+
+def alerta(nivel, base, etapa):
+    # Mapeia o nível para o título apropriado
+    if nivel == 1:
+        titulo = "Alerta Baixo"
+    elif nivel == 2:
+        titulo = "Alerta Médio"
+    elif nivel == 3:
+        titulo = "Alerta Alto"
+    else:
+        raise ValueError("Nível de alerta inválido. Use 1, 2 ou 3.")
+
+    # Obtém a data atual no formato HH:MM:SS
+    horario = datetime.datetime.now().strftime('%H:%M:%S')
+    
+    # Cria a mensagem da notificação
+    mensagem = f'Falha no carregamento da base {base} na etapa {etapa}\nData: {horario}'
+
+    # Exibe a notificação com o título e a mensagem
+    notification.notify(
+        title=titulo,
+        message=mensagem,
+        app_name='Nome do aplicativo',
+        timeout=10
+    )
+
+# Exemplo de uso da função:
+alerta(nivel=2, base='MinhaBase', etapa='Etapa1')
