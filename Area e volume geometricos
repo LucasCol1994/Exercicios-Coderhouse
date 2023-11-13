@@ -1,0 +1,291 @@
+import math
+
+class Retangulo:
+    def __init__(self, base, altura):
+        self.base = base
+        self.altura = altura
+
+    def calcular_area(self):
+        return self.base * self.altura
+
+    def calcular_perimetro(self):
+        return 2 * (self.base + self.altura)
+
+class Circulo:
+    def __init__(self, raio):
+        self.raio = raio
+
+    def calcular_area(self):
+        return math.pi * self.raio**2
+
+    def calcular_perimetro(self):
+        return 2 * math.pi * self.raio
+
+class Triangulo:
+    def __init__(self, base, altura, lado1, lado2, lado3):
+        self.base = base
+        self.altura = altura
+        self.lado1 = lado1
+        self.lado2 = lado2
+        self.lado3 = lado3
+
+    def calcular_area(self):
+        return 0.5 * self.base * self.altura
+
+    def calcular_perimetro(self):
+        return self.lado1 + self.lado2 + self.lado3
+
+class Quadrado:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        return self.lado**2
+
+    def calcular_perimetro(self):
+        return 4 * self.lado
+
+class Pentagono:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        return 0.25 * math.sqrt(5 * (5 + 2 * math.sqrt(5))) * self.lado**2
+
+    def calcular_perimetro(self):
+        return 5 * self.lado
+
+class Hexagono:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        return 1.5 * math.sqrt(3) * self.lado**2
+
+    def calcular_perimetro(self):
+        return 6 * self.lado
+
+class Heptagono:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        apotema = self.lado / (2 * math.tan(math.pi / 7))
+        return 0.5 * 7 * self.lado * apotema
+
+    def calcular_perimetro(self):
+        return 7 * self.lado
+
+class Octogono:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        return 2 * (1 + math.sqrt(2)) * self.lado**2
+
+    def calcular_perimetro(self):
+        return 8 * self.lado
+
+class Eneagono:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        apotema = self.lado / (2 * math.tan(math.pi / 9))
+        return 0.5 * 9 * self.lado * apotema
+
+    def calcular_perimetro(self):
+        return 9 * self.lado
+
+class Decagono:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        apotema = self.lado / (2 * math.tan(math.pi / 10))
+        return 0.5 * 10 * self.lado * apotema
+
+    def calcular_perimetro(self):
+        return 10 * self.lado
+
+class Dodecagono:
+    def __init__(self, lado):
+        self.lado = lado
+
+    def calcular_area(self):
+        apotema = self.lado / (2 * math.tan(math.pi / 12))
+        return 0.5 * 12 * self.lado * apotema
+
+    def calcular_perimetro(self):
+        return 12 * self.lado
+
+class Cubo:
+    def __init__(self, aresta):
+        self.aresta = aresta
+
+    def calcular_area(self):
+        return 6 * self.aresta**2
+
+    def calcular_volume(self):
+        return self.aresta**3
+
+class Esfera:
+    def __init__(self, raio):
+        self.raio = raio
+
+    def calcular_area(self):
+        return 4 * math.pi * self.raio**2
+
+    def calcular_volume(self):
+        return (4/3) * math.pi * self.raio**3
+
+class Cilindro:
+    def __init__(self, raio, altura):
+        self.raio = raio
+        self.altura = altura
+
+    def calcular_area(self):
+        return 2 * math.pi * self.raio * (self.raio + self.altura)
+
+    def calcular_volume(self):
+        return math.pi * self.raio**2 * self.altura
+
+class Cone:
+    def __init__(self, raio, altura):
+        self.raio = raio
+        self.altura = altura
+
+    def calcular_area(self):
+        return math.pi * self.raio * (self.raio + math.sqrt(self.raio**2 + self.altura**2))
+
+    def calcular_volume(self):
+        return (1/3) * math.pi * self.raio**2 * self.altura
+
+class Piramide:
+    def __init__(self, base_lado, altura):
+        self.base_lado = base_lado
+        self.altura = altura
+
+    def calcular_area(self):
+        base_area = self.base_lado**2
+        lateral_area = 0.5 * self.base_lado * math.sqrt(4 * self.altura**2 + self.base_lado**2)
+        return base_area + lateral_area
+
+    def calcular_volume(self):
+        return (1/3) * self.base_lado**2 * self.altura
+
+# Função para obter um número float válido a partir da entrada do usuário
+def obter_numero_float(mensagem):
+    while True:
+        try:
+            valor = float(input(mensagem))
+            return valor
+        except ValueError:
+            print("Por favor, insira um número válido.")
+
+# Função para obter a escolha do usuário entre as formas disponíveis
+def escolher_forma():
+    print("\nEscolha a forma geométrica:")
+    print("1. Retângulo")
+    print("2. Círculo")
+    print("3. Triângulo")
+    print("4. Quadrado")
+    print("5. Pentagono")
+    print("6. Hexagono")
+    print("7. Heptagono")
+    print("8. Octogono")
+    print("9. Eneagono")
+    print("10. Decagono")
+    print("11. Dodecagono")
+    print("12. Cubo")
+    print("13. Esfera")
+    print("14. Cilindro")
+    print("15. Cone")
+    print("16. Piramide")
+
+    escolha = obter_numero_float("Insira o número correspondente à sua escolha: ")
+
+    if 1 <= escolha <= 16:
+        return int(escolha)
+    else:
+        print("Opção inválida. Por favor, escolha um número entre 1 e 16.")
+        return escolher_forma()
+
+# Função principal
+def main():
+    forma_escolhida = escolher_forma()
+
+    if forma_escolhida in range(1, 12):  # Formas bidimensionais
+        if forma_escolhida == 1:
+            base = obter_numero_float("Insira o comprimento da base do retângulo: ")
+            altura = obter_numero_float("Insira a altura do retângulo: ")
+            forma = Retangulo(base, altura)
+        elif forma_escolhida == 2:
+            raio = obter_numero_float("Insira o raio do círculo: ")
+            forma = Circulo(raio)
+        elif forma_escolhida == 3:
+            base = obter_numero_float("Insira o comprimento da base do triângulo: ")
+            altura = obter_numero_float("Insira a altura do triângulo: ")
+            lado1 = obter_numero_float("Insira o comprimento do lado 1 do triângulo: ")
+            lado2 = obter_numero_float("Insira o comprimento do lado 2 do triângulo: ")
+            lado3 = obter_numero_float("Insira o comprimento do lado 3 do triângulo: ")
+            forma = Triangulo(base, altura, lado1, lado2, lado3)
+        elif forma_escolhida == 4:
+            lado = obter_numero_float("Insira o comprimento do lado do quadrado: ")
+            forma = Quadrado(lado)
+        elif forma_escolhida == 5:
+            lado = obter_numero_float("Insira o comprimento do lado do pentágono: ")
+            forma = Pentagono(lado)
+        elif forma_escolhida == 6:
+            lado = obter_numero_float("Insira o comprimento do lado do hexágono: ")
+            forma = Hexagono(lado)
+        elif forma_escolhida == 7:
+            lado = obter_numero_float("Insira o comprimento do lado do heptágono: ")
+            forma = Heptagono(lado)
+        elif forma_escolhida == 8:
+            lado = obter_numero_float("Insira o comprimento do lado do octógono: ")
+            forma = Octogono(lado)
+        elif forma_escolhida == 9:
+            lado = obter_numero_float("Insira o comprimento do lado do eneágono: ")
+            forma = Eneagono(lado)
+        elif forma_escolhida == 10:
+            lado = obter_numero_float("Insira o comprimento do lado do decágono: ")
+            forma = Decagono(lado)
+        elif forma_escolhida == 11:
+            lado = obter_numero_float("Insira o comprimento do lado do dodecágono: ")
+            forma = Dodecagono(lado)
+
+        area = forma.calcular_area()
+        perimetro = forma.calcular_perimetro()
+
+        print(f"\nÁrea: {area}")
+        print(f"Perímetro: {perimetro}")
+
+    elif forma_escolhida in range(12, 17):  # Formas tridimensionais
+        if forma_escolhida == 12:
+            aresta = obter_numero_float("Insira o comprimento da aresta do cubo: ")
+            forma = Cubo(aresta)
+        elif forma_escolhida == 13:
+            raio = obter_numero_float("Insira o raio da esfera: ")
+            forma = Esfera(raio)
+        elif forma_escolhida == 14:
+            raio = obter_numero_float("Insira o raio do cilindro: ")
+            altura = obter_numero_float("Insira a altura do cilindro: ")
+            forma = Cilindro(raio, altura)
+        elif forma_escolhida == 15:
+            raio = obter_numero_float("Insira o raio do cone: ")
+            altura = obter_numero_float("Insira a altura do cone: ")
+            forma = Cone(raio, altura)
+        elif forma_escolhida == 16:
+            base_lado = obter_numero_float("Insira o comprimento do lado da base da pirâmide: ")
+            altura = obter_numero_float("Insira a altura da pirâmide: ")
+            forma = Piramide(base_lado, altura)
+
+        area = forma.calcular_area()
+        volume = forma.calcular_volume()
+
+        print(f"\nÁrea: {area}")
+        print(f"Volume: {volume}")
+
+if __name__ == "__main__":
+    main()
