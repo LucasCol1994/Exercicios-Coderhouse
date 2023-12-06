@@ -1,0 +1,59 @@
+import requests
+from tabulate import tabulate
+
+def alerta(mensagem):
+    print(f"ALERTA: {mensagem}")
+
+def extrair_dados(api_url):
+    try:
+        # Faz a requisição à API
+        response = requests.get(api_url)
+
+        # Verifica se a requisição foi bem-sucedida (código de status 200)
+        if response.status_code == 200:
+            # Converte a resposta para formato JSON
+            data = response.json()
+
+            # Extrai dados das tabelas
+            tabela1 = []
+            tabela2 = []
+            tabela3 = []
+
+            # Exemplo de extração de dados (substitua de acordo com a estrutura real da API)
+            for item in data['results'][:5]:
+                tabela1.append([item['name'], item['url'], 'coluna_comum'])
+
+            for item in data['results'][5:10]:
+                tabela2.append([item['name'], 'coluna_comum', item['url']])
+
+            for item in data['results'][10:15]:
+                tabela3.append(['coluna_comum', item['name'], item['url']])
+
+            return tabela1, tabela2, tabela3
+        else:
+            # Se a requisição não foi bem-sucedida, exibe um alerta de erro
+            alerta(f"Erro na requisição à API. Código de status: {response.status_code}")
+            return None, None, None
+    except Exception as e:
+        # Se ocorrer um erro durante o processo, exibe um alerta de erro
+        alerta(f"Erro: {str(e)}")
+        return None, None, None
+
+def main():
+    api_url = "https://pokeapi.co/api/v2/pokemon"
+    tabela1, tabela2, tabela3 = extrair_dados(api_url)
+
+    if tabela1 and tabela2 and tabela3:
+        # Exibe as tabelas formatadas
+        print("Tabela 1:")
+        print(tabulate(tabela1, headers=['Coluna1', 'Coluna2', 'Coluna_comum'], tablefmt='grid'))
+
+        print("\nTabela 2:")
+        print(tabulate(tabela2, headers=['Coluna1', 'Coluna_comum', 'Coluna2'], tablefmt='grid'))
+
+        print("\nTabela 3:")
+        print(tabulate(tabela3, headers=['Coluna_comum', 'Coluna1', 'Coluna2'], tablefmt='grid'))
+
+if __name__ == "__main__":
+    main()
+#Note que adicionei uma coluna chamada 'coluna_comum' em cada tabela para servir como ponto de ligação entre as três tabelas
