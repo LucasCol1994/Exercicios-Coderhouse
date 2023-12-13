@@ -1,0 +1,94 @@
+import requests
+import pandas as pd
+
+def alerta(mensagem):
+    print(f"ALERTA: {mensagem}")
+
+def extrair_dados(api_url):
+    try:
+        # Faz a requisição à API
+        response = requests.get(api_url)
+
+        # Verifica se a requisição foi bem-sucedida (código de status 200)
+        if response.status_code == 200:
+            # Converte a resposta para formato JSON
+            data = response.json()
+
+            # Extrai dados das tabelas
+            tabela1 = pd.DataFrame(data['results'][:5], columns=['name', 'url'])
+            tabela2 = pd.DataFrame(data['results'][5:10], columns=['name', 'url'])
+            tabela3 = pd.DataFrame(data['results'][10:15], columns=['name', 'url'])
+
+            return tabela1, tabela2, tabela3
+        else:
+            # Se a requisição não foi bem-sucedida, exibe um alerta de erro
+            alerta(f"Erro na requisição à API. Código de status: {response.status_code}")
+            return None, None, None
+    except Exception as e:
+        # Se ocorrer um erro durante o processo, exibe um alerta de erro
+        alerta(f"Erro: {str(e)}")
+        return None, None, None
+
+def ajustar_dados(tabela1, tabela2, tabela3):
+    # Ajuste de nomes de colunas e linhas, filtros, unstack/stack, tratamento de tipos, ajuste de dados ausentes, tratamento de colunas string, etc.
+
+    # Renomeia as colunas
+    tabela1 = tabela1.rename(columns={'name': 'Nome_tabela1', 'url': 'URL_tabela1'})
+    tabela2 = tabela2.rename(columns={'name': 'Nome_tabela2', 'url': 'URL_tabela2'})
+    tabela3 = tabela3.rename(columns={'name': 'Nome_tabela3', 'url': 'URL_tabela3'})
+
+    # Unstack para pivotar os dados
+    tabela1 = tabela1.set_index('Nome_tabela1').stack().reset_index(name='Valor_tabela1')
+
+    # Tratamento de tipos
+    tabela1['Valor_tabela1'] = tabela1['Valor_tabela1'].astype(str)
+
+    # Ajuste de dados ausentes
+    tabela2 = tabela2.fillna(0)
+
+    # Manipulação de colunas de strings
+    tabela3['Nome_tabela3'] = tabela3['Nome_tabela3'].apply(lambda x: x.upper())
+
+    return tabela1, tabela2, tabela3
+
+def salvar_tabelas(tabela1, tabela2, tabela3, path='bases/'):
+    # Cria o diretório 'bases' se não existir
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        pass
+
+    # Salva as tabelas brutais
+    tabela1.to_csv(f'{path}tabela1_bruta.csv', index=False)
+    tabela2.to_csv(f'{path}tabela2_bruta.csv', index=False)
+    tabela3.to_csv(f'{path}tabela3_bruta.csv', index=False)
+
+    # Realiza ajustes nos dados
+    tabela1, tabela2, tabela3 = ajustar_dados(tabela1, tabela2, tabela3)
+
+    # Salva as tabelas tratadas
+    tabela1.to_csv(f'{path}tabela1_tratada.csv', index=False)
+    tabela2.to_csv(f'{path}tabela2_tratada.csv', index=False)
+    tabela3.to_csv(f'{path}tabela3_tratada.csv', index=False)
+
+def main():
+    api_url = "https://pokeapi.co/api/v2/pokemon"
+    tabela1, tabela2, tabela3 = extrair_dados(api_url)
+
+    if tabela1 and tabela2 and tabela3:
+        # Salva as tabelas brutais e tratadas
+        salvar_tabelas(tabela1, tabela2, tabela3)
+
+        # Exibe as tabelas formatadas após os ajustes
+        print("Tabela 1 tratada:")
+        print(tabela1)
+
+        print("\nTabela 2 tratada:")
+        print(tabela2)
+
+        print("\nTabela 3 tratada:")
+        print(tabela3)
+
+if __name__ == "__main__":
+    main()
+
